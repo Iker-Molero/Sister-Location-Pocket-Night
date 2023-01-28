@@ -55,6 +55,7 @@ public class Main_Menu_Manager : MonoBehaviour
                 exitRenderer.sprite = exitSprites[1];
                 break;
         }
+        //Cambiamos la escena a la seleccionada
         if (Input.GetKeyDown(KeyCode.Z))
         {
             switch (selection)

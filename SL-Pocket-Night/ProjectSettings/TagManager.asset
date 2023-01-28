@@ -22,6 +22,7 @@ TagManager:
   - Main_Start
   - Main_How
   - Main_Exit
+  - Presets
   layers:
   - Default
   - TransparentFX
