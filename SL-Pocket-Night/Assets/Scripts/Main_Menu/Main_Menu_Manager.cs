@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class Main_Menu_Manager : MonoBehaviour
 {
     //Variable para el numero de frames por segundo
@@ -52,6 +54,21 @@ public class Main_Menu_Manager : MonoBehaviour
                 howRenderer.sprite = howSprites[0];
                 exitRenderer.sprite = exitSprites[1];
                 break;
+        }
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            switch (selection)
+            {
+                case 1:
+                    SceneManager.LoadScene("Night_Selector");
+                    break;
+                case 2:
+                    SceneManager.LoadScene("Tutorial");
+                    break;
+                case 3:
+                    Application.Quit();
+                    break;
+            }
         }
     }
 }
