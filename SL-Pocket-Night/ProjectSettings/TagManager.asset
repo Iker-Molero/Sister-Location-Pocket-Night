@@ -23,6 +23,7 @@ TagManager:
   - Main_How
   - Main_Exit
   - Presets
+  - Pages
   layers:
   - Default
   - TransparentFX
