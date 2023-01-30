@@ -6,7 +6,7 @@ public class Night_Selector_Manager : MonoBehaviour
     //Variable para el numero de frames por segundo.
     int frames = 20; //Para crear el efecto retro.
     //Variable para detectar el boton seleccionado.
-    int selection;
+    public int selection;
     //Variable para el renderer de la seleccion.
     SpriteRenderer selectedRenderer;
     //Lista con los sprites seleccionables.

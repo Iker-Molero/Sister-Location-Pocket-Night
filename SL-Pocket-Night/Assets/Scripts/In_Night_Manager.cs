@@ -9,6 +9,7 @@ public class In_Night_Manager : MonoBehaviour
     int actualHour;
     public int oxigen;
     public int battery;
+    float batteryTimer;
     int usage;
     //Variables para los sprites de cada apartado del HUD.
     [Header("Listas de sprites")]
@@ -35,6 +36,10 @@ public class In_Night_Manager : MonoBehaviour
     bool camsUp;
     //Variable para el animador de la tablet.
     Animator camsAnim;
+    //Variable para bloquear los controles si la bateria llega a 0.
+    bool havePower;
+    //Variable del animador del ventilador.
+    Animator fanAnim;
     void Start()
     {
         //Limitamos los fps de la escena.
@@ -45,6 +50,7 @@ public class In_Night_Manager : MonoBehaviour
         //Reiniciamos las variables del HUD al inicio de la hora.
         oxigen = 100;
         battery = 100;
+        batteryTimer = 0;
         usage = 0;
         actualHour = 0;
         //Asignamos la duracion de la hora.
@@ -64,6 +70,10 @@ public class In_Night_Manager : MonoBehaviour
         leftAnim.SetBool("Closed", leftClosed);
         ventAnim.SetBool("Closed", ventClosed);
         camsAnim.SetBool("Open", camsUp);
+        //Reiniciamos la variable que comprueba si tenemos bateria.
+        havePower = true;
+        //Asignamos la variable del animador del ventilador.
+        fanAnim = GameObject.FindGameObjectWithTag("Fan").GetComponent<Animator>();
     }
     void Update()
     {
@@ -124,26 +134,61 @@ public class In_Night_Manager : MonoBehaviour
         //Cuando la hora llegue a las 6 completamos la noche.
         if (actualHour == 6)
         { SceneManager.LoadScene("Post_Night"); }
-        //Si se pulsan las teclas necesarias, hacer la accion correspondiente.
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        //Si se pulsan las teclas necesarias, hacer la accion correspondiente (Solo si la bateria es superior a 0).
+        if (havePower)
         {
-            rightClosed = !rightClosed;
-            rightAnim.SetBool("Closed", rightClosed);
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                rightClosed = !rightClosed;
+                rightAnim.SetBool("Closed", rightClosed);
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                leftClosed = !leftClosed;
+                leftAnim.SetBool("Closed", leftClosed);
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                ventClosed = !ventClosed;
+                ventAnim.SetBool("Closed", ventClosed);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                camsUp = !camsUp;
+                camsAnim.SetBool("Open", camsUp);
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        //Disminuimos la carga de la bateria en base al uso.
+        // --Para ello usamos un temporizador que se reinicia cada X segundos--
+        // --Cuando el temporizador se reinicie le restamos a la bateria la cantidad que se este consumiendo--
+        batteryTimer += Time.deltaTime;
+        if (batteryTimer >= 10)
         {
-            leftClosed = !leftClosed;
-            leftAnim.SetBool("Closed", leftClosed);
+            batteryTimer = 0;
+            battery -= (usage + 1); //Hay que sumarle uno al uso ya que el primer valor de uso siempre es 0.
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            ventClosed = !ventClosed;
-            ventAnim.SetBool("Closed", ventClosed);
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            camsUp = !camsUp;
-            camsAnim.SetBool("Open", camsUp);
-        }
+        //Si la bateria llega a 0, desactivamos los controles y bajamos el oxigeno a 0.
+        if (battery == 0)
+        { NoPower(); }
+    }
+
+    void NoPower()
+    {
+        //Bloqueamos los controles del usuario.
+        havePower = false;
+        //Abrimos todas las puertas.
+        rightClosed = false;
+        rightAnim.SetBool("Closed", rightClosed);
+        leftClosed = false;
+        leftAnim.SetBool("Closed", leftClosed);
+        ventClosed = false;
+        ventAnim.SetBool("Closed", ventClosed);
+        //Cerramos las camaras.
+        camsUp = false;
+        camsAnim.SetBool("Open", camsUp);
+        //Bajamos el oxigeno a 0.
+        oxigen = 0;
+        //Detenemos el ventilador.
+        fanAnim.enabled = false;
     }
 }
