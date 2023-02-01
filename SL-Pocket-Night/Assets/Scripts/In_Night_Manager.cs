@@ -8,6 +8,7 @@ public class In_Night_Manager : MonoBehaviour
     //Variables generales del HUD.
     int actualHour;
     public int oxigen;
+    float oxigenTimer;
     public int battery;
     float batteryTimer;
     int usage;
@@ -25,15 +26,15 @@ public class In_Night_Manager : MonoBehaviour
     float timer;
     int secondsPerHour; //Duracion de la noche en segundos.
     //Variables para las puertas.
-    bool rightClosed;
-    bool leftClosed;
-    bool ventClosed;
+    public bool rightClosed;
+    public bool leftClosed;
+    public bool ventClosed;
     //Variables para los animadores de las puertas.
     Animator rightAnim;
     Animator leftAnim;
     Animator ventAnim;
     //Variable para la tablet (a.k.a "camaras")
-    bool camsUp;
+    public bool camsUp;
     //Variable para el animador de la tablet.
     Animator camsAnim;
     //Variable para bloquear los controles si la bateria llega a 0.
@@ -49,6 +50,7 @@ public class In_Night_Manager : MonoBehaviour
         hourRenderer = GameObject.FindGameObjectWithTag("Hour_HUD").GetComponent<SpriteRenderer>();
         //Reiniciamos las variables del HUD al inicio de la hora.
         oxigen = 100;
+        oxigenTimer = 0;
         battery = 100;
         batteryTimer = 0;
         usage = 0;
@@ -162,7 +164,7 @@ public class In_Night_Manager : MonoBehaviour
         // --Para ello usamos un temporizador que se reinicia cada X segundos--
         // --Cuando el temporizador se reinicie le restamos a la bateria la cantidad que se este consumiendo--
         batteryTimer += Time.deltaTime;
-        if (batteryTimer >= 10)
+        if (batteryTimer >= 11)
         {
             batteryTimer = 0;
             battery -= (usage + 1); //Hay que sumarle uno al uso ya que el primer valor de uso siempre es 0.
@@ -170,6 +172,13 @@ public class In_Night_Manager : MonoBehaviour
         //Si la bateria llega a 0, desactivamos los controles y bajamos el oxigeno a 0.
         if (battery == 0)
         { NoPower(); }
+        //Tambien aumentamos la carga de oxigeno, al contrario que la bateria.
+        oxigenTimer += Time.deltaTime;
+        if (oxigenTimer >= 1)
+        {
+            oxigenTimer = 0;
+            oxigen++;
+        }
     }
 
     void NoPower()

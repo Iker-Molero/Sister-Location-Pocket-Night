@@ -20,14 +20,14 @@ public class Difficulties : MonoBehaviour
     void Start()
     {
         //Evitamos que el objeto se destruya en la siguiente escena, para poder pasar las dificultades de cada personaje dentro de la noche.
-        DontDestroyOnLoad(this);
-        //Si se completa la noche, eliminamos el objeto para que no se acumulen.
-        //Si se vuelve al menu principal, tambien eliminamos el objeto para que no se acumulen.
-        if (SceneManager.GetActiveScene().name == "Post_Night" || SceneManager.GetActiveScene().name == "Main_Menu")
-        { Destroy(this); }
+        DontDestroyOnLoad(gameObject);
     }
     void Update()
     {
+        //Si se completa la noche, eliminamos el objeto para que no se acumulen.
+        //Si se vuelve al menu principal, tambien eliminamos el objeto para que no se acumulen.
+        if (SceneManager.GetActiveScene().name == "Post_Night" || SceneManager.GetActiveScene().name == "Main_Menu")
+        { Destroy(gameObject); }
         //Si estamos en la escena de seleccion de nivel.
         if (SceneManager.GetActiveScene().name == "Night_Selector")
         {
