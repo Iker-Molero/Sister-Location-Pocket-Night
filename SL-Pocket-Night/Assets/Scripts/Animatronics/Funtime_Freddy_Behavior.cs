@@ -8,9 +8,9 @@ public class Funtime_Freddy_Behavior : MonoBehaviour
     int diff;
     //Variable para el componente aleatorio del juego.
     int rand;
-    //Sonidos de Bon-Bon y Funtime Freddy.
-    public AudioSource bonbonAudio;
-    public AudioSource funtimefreddyAudio;
+    //Audios del enemigo.
+    public AudioSource bonbonStep;
+    public AudioSource doorBang;
     //Para detectar las puertas.
     public In_Night_Manager main;
     //Para activar el jumpscare.
@@ -19,108 +19,57 @@ public class Funtime_Freddy_Behavior : MonoBehaviour
     {
         //Extraemos la variable de dificultad y se la asignamos al script.
         preset = GameObject.FindGameObjectWithTag("Difficulties").GetComponent<Difficulties>();
-        diff = preset.funtimeFreddy;
+        diff = preset.selectedDifficulties[1];
         //Si la dificultad no es 0 iniciamos el loop.
         if (diff != 0)
         { StartCoroutine(DownTime()); }
-        //Marcamos el volumen del audio a 0.
-        bonbonAudio.volume = 0;
-        bonbonAudio.panStereo = 0;
-        funtimefreddyAudio.volume = 0;
-        funtimefreddyAudio.panStereo = 0;
+        //Preparamos los audios.
+        bonbonStep.volume = 0;
+        bonbonStep.panStereo = 0;
+        doorBang.volume = 1;
     }
     //Tiempo hasta que se activa el enemigo.
     IEnumerator DownTime()
     {
-        bonbonAudio.volume = 0;
-        bonbonAudio.panStereo = 0;
-        funtimefreddyAudio.volume = 0;
-        funtimefreddyAudio.panStereo = 0;
-        yield return new WaitForSeconds(10);
+        bonbonStep.volume = 0;
+        bonbonStep.panStereo = 0;
+        yield return new WaitForSeconds(30 - diff);
         Initiate();
     }
-    //Funtime Freddy elige atacar o distraerte. Si elige atacar.
+    //Si elige el lado de ataque.
     void Initiate()
     {
-        switch (diff)
-        {
-            case 10:
-                rand = Random.Range(0, 100);
-                if (rand <= 10)
-                {
-                    funtimefreddyAudio.volume = 1;
-                    funtimefreddyAudio.panStereo = 0;
-                    funtimefreddyAudio.Play();
-                    StartCoroutine(DownTime());
-                }
-                else
-                {
-                    rand = Random.Range(0, 100);
-                    if (rand <= 50)
-                    {
-                        bonbonAudio.volume = 1;
-                        bonbonAudio.panStereo = -.75f;
-                        bonbonAudio.Play();
-                        StartCoroutine(DoorCheck(0));
-
-                    }
-                    else
-                    {
-                        bonbonAudio.volume = 1;
-                        bonbonAudio.panStereo = .75f;
-                        bonbonAudio.Play();
-                        StartCoroutine(DoorCheck(1));
-                    }
-                }
-                break;
-            case 20:
-                rand = Random.Range(0, 100);
-                if (rand <= 20)
-                {
-                    funtimefreddyAudio.volume = 1;
-                    funtimefreddyAudio.panStereo = 0;
-                    funtimefreddyAudio.Play();
-                    StartCoroutine(DownTime());
-                }
-                else
-                {
-                    rand = Random.Range(0, 100);
-                    if (rand <= 50)
-                    {
-                        bonbonAudio.volume = 1;
-                        bonbonAudio.panStereo = -.75f;
-                        bonbonAudio.Play();
-                        StartCoroutine(DoorCheck(0));
-
-                    }
-                    else
-                    {
-                        bonbonAudio.volume = 1;
-                        bonbonAudio.panStereo = .75f;
-                        bonbonAudio.Play();
-                        StartCoroutine(DoorCheck(1));
-                    }
-                }
-                break;
-        }
+        rand = Random.Range(0, 100);
+        if (rand <= 50)
+        { StartCoroutine(AttackLeft()); }
+        else { StartCoroutine(AttackRight()); }
     }
-    //Se comprueba si tienes cerrado el lado adecuado. Si no, jumpscare. Si si, se repite el ciclo.
-    IEnumerator DoorCheck(int side)
+    //Si la puerta correspondiente esta cerrada, se repite el ciclo, si no jumpscare.
+    IEnumerator AttackLeft()
     {
-        yield return new WaitForSeconds(3);
-        if (side == 0)
-        {
-            if (main.leftClosed)
-            { StartCoroutine(DownTime()); }
-            else
-            { activator.ActivateJumpscare(1); }
-        }
+        bonbonStep.volume = 1;
+        bonbonStep.panStereo = -.75f;
+        bonbonStep.Play();
+        yield return new WaitForSeconds(5);
+        if (main.leftClosed)
+        { 
+            doorBang.Play();
+            StartCoroutine(DownTime()); }
         else
+        { activator.ActivateJumpscare(1); }
+    }
+    //Si la puerta correspondiente esta cerrada, se repite el ciclo, si no jumpscare.
+    IEnumerator AttackRight()
+    {
+        bonbonStep.volume = 1;
+        bonbonStep.panStereo = .75f;
+        bonbonStep.Play();
+        yield return new WaitForSeconds(5);
+        if (main.rightClosed)
         {
-            if (main.rightClosed)
-            { StartCoroutine(DownTime()); }
-            else
-            { activator.ActivateJumpscare(1); }
-        }
+            doorBang.Play();
+            StartCoroutine(DownTime()); }
+        else
+        { activator.ActivateJumpscare(1); }
     }
 }

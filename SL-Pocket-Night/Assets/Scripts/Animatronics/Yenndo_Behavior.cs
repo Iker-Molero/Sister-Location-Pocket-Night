@@ -8,70 +8,39 @@ public class Yenndo_Behavior : MonoBehaviour
     int diff;
     //Variable para el componente aleatorio del juego.
     int rand;
-    //Para detectar las camaras.
+    //Para detectar las puertas.
     public In_Night_Manager main;
     //Para activar el jumpscare.
     public Jumpscare activator;
-    //Sprite renderer para mostrar a Yenndo en la officina.
-    public SpriteRenderer yenndoRenderer;
+    //Para saber si yenndo ya esta activado.
     bool yenndo;
+    //Sprite de Yenndo.
+    public SpriteRenderer yenndoRenderer;
     void Start()
     {
         //Extraemos la variable de dificultad y se la asignamos al script.
         preset = GameObject.FindGameObjectWithTag("Difficulties").GetComponent<Difficulties>();
-        diff = preset.yenndo;
-        yenndo = false;
+        diff = preset.selectedDifficulties[2];
     }
     void Update()
     {
-        //Si se cierran las camaras, aparece Yenndo (Con una probabilidad).
         if (!main.camsUp && Input.GetKeyDown(KeyCode.DownArrow) && diff != 0)
         {
-            Debug.Log("Cams Down");
-            StartCoroutine(Activate());
+            //Cams down
+            rand = Random.Range(0, 100);
+            if (rand <= diff + 10)
+            { StartCoroutine(Appear()); }
         }
-        if (main.camsUp)
-        { yenndo = false; }
+        if (main.camsUp) { yenndo = false; }
         yenndoRenderer.enabled = yenndo;
     }
-    IEnumerator Activate()
+    IEnumerator Appear()
     {
-        rand = Random.Range(0, 100);
-        if (diff == 5)
-        {
-            if (rand <= 10)
-            {
-                yenndo = true;
-                main.oxigen -= 30;
-                yield return new WaitForSeconds(6);
-                if (!yenndo) yield break;
-                if (yenndo)
-                { activator.ActivateJumpscare(2); }
-            }
-        }
-        else if (diff == 20)
-        {
-            if (rand <= diff)
-            {
-                yenndo = true;
-                main.oxigen -= 30;
-                yield return new WaitForSeconds(5);
-                if (!yenndo) yield break;
-                if (yenndo)
-                { activator.ActivateJumpscare(2); }
-            }
-        }
-        else
-        {
-            if (rand <= 35)
-            {
-                yenndo = true;
-                main.oxigen -= 30;
-                yield return new WaitForSeconds(3);
-                if (!yenndo) yield break;
-                if (yenndo)
-                { activator.ActivateJumpscare(2); }
-            }
-        }
+        main.oxigen -= 30;
+        yenndo = true;
+        yenndoRenderer.enabled = true;
+        yield return new WaitForSeconds(12 - (diff / 2));
+        if (yenndo)
+        { activator.ActivateJumpscare(2); }
     }
 }

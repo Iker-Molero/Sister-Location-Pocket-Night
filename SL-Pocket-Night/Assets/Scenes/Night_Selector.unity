@@ -259,16 +259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   main: {fileID: 300391717}
   preset: 0
-  ballora: 0
-  funtimeFreddy: 0
-  yenndo: 0
-  funtimeFoxy: 0
-  bonnet: 0
-  bidybab: 0
-  electrobab: 0
-  lolbit: 0
-  minireenas: 0
-  minireenas2: 0
+  selectedDifficulties: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!1 &1050938728
 GameObject:
   m_ObjectHideFlags: 0

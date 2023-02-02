@@ -18,7 +18,7 @@ public class Ballora_Behavior : MonoBehaviour
     {
         //Extraemos la variable de dificultad y se la asignamos al script.
         preset = GameObject.FindGameObjectWithTag("Difficulties").GetComponent<Difficulties>();
-        diff = preset.ballora;
+        diff = preset.selectedDifficulties[0];
         //Si la dificultad no es 0 iniciamos el loop.
         if (diff != 0)
         { StartCoroutine(DownTime()); }
@@ -31,7 +31,7 @@ public class Ballora_Behavior : MonoBehaviour
     {
         balloraAudio.volume = 0;
         balloraAudio.panStereo = 0;
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(50 - diff);
         Initiate();
     }
     //Ballora elige si atacar o fingir un ataque.
