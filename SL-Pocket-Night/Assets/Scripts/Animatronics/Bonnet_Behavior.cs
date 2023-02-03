@@ -1,6 +1,6 @@
 using System.Collections;
 using UnityEngine;
-public class Yenndo_Behavior : MonoBehaviour
+public class Bonnet_Behavior : MonoBehaviour
 {
     //Variable para extraer la variable de dificultad elegida.
     Difficulties preset;
@@ -12,10 +12,10 @@ public class Yenndo_Behavior : MonoBehaviour
     public In_Night_Manager main;
     //Para activar el jumpscare.
     public Jumpscare activator;
-    //Para saber si yenndo ya esta activado.
-    bool yenndo;
-    //Sprite de Yenndo.
-    public SpriteRenderer yenndoRenderer;
+    //Para saber si bonnet ya esta activado.
+    bool bonnet;
+    //Sprite de Bonnet.
+    public SpriteRenderer bonnetRenderer;
     //Espera entre activaciones.
     float timer;
     bool canActivate;
@@ -23,7 +23,7 @@ public class Yenndo_Behavior : MonoBehaviour
     {
         //Extraemos la variable de dificultad y se la asignamos al script.
         preset = GameObject.FindGameObjectWithTag("Difficulties").GetComponent<Difficulties>();
-        diff = preset.selectedDifficulties[2];
+        diff = preset.selectedDifficulties[4];
         timer = 0;
         canActivate = true;
     }
@@ -33,20 +33,19 @@ public class Yenndo_Behavior : MonoBehaviour
         if (timer > 10) { timer = 0; canActivate = true; }
         if (!main.camsUp && Input.GetKeyDown(KeyCode.DownArrow) && diff != 0)
         {
-            //Cams down
+            //Cams up
             rand = Random.Range(0, 100);
             if (rand <= diff + 10 && canActivate)
             { StartCoroutine(Appear()); }
         }
-        if (main.camsUp && yenndo) { yenndo = false; canActivate = false; }
-        yenndoRenderer.enabled = yenndo;
+        if (!main.camsUp && Input.GetKeyDown(KeyCode.Z)) { bonnet = false; canActivate = false; }
+        bonnetRenderer.enabled = bonnet;
     }
     IEnumerator Appear()
     {
-        main.oxigen -= 30;
-        yenndo = true;
+        bonnet = true;
         yield return new WaitForSeconds(15 - (diff / 2));
-        if (yenndo)
-        { activator.ActivateJumpscare(2); }
+        if (bonnet)
+        { activator.ActivateJumpscare(4); }
     }
 }

@@ -16,6 +16,7 @@ public class Jumpscare : MonoBehaviour
     public In_Night_Manager main;
     //Variable para cambiar el sprite del jumpscare.
     public SpriteRenderer jumpscareRender;
+    public AudioListener mainListener;
     public void ActivateJumpscare(int index)
     {
         main.battery = 0;
@@ -24,6 +25,7 @@ public class Jumpscare : MonoBehaviour
     }
     IEnumerator ResetNight()
     {
+        mainListener.enabled = false;
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene("Main_Menu");
     }

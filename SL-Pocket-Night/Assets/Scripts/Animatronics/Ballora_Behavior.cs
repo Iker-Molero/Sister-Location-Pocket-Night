@@ -29,9 +29,10 @@ public class Ballora_Behavior : MonoBehaviour
     //Tiempo hasta que se activa el enemigo.
     IEnumerator DownTime()
     {
+        balloraAudio.Stop();
         balloraAudio.volume = 0;
         balloraAudio.panStereo = 0;
-        yield return new WaitForSeconds(50 - diff);
+        yield return new WaitForSeconds(35 - diff);
         Initiate();
     }
     //Ballora elige si atacar o fingir un ataque.
@@ -76,6 +77,7 @@ public class Ballora_Behavior : MonoBehaviour
     //Una vez elegido el lado se aumenta el sonido de la musica de la manera adecuada
     IEnumerator FeintVolume(int side)
     {
+        balloraAudio.Play();
         if (side == 0)
         { balloraAudio.panStereo = -.75f; }
         else
@@ -95,6 +97,7 @@ public class Ballora_Behavior : MonoBehaviour
     }
     IEnumerator AttackVolume(int side)
     {
+        balloraAudio.Play();
         //Si el lado elegido es la izquierda.
         if (side == 0)
         { balloraAudio.panStereo = -.75f; }

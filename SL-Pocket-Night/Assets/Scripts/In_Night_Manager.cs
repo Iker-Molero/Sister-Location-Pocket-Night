@@ -164,7 +164,7 @@ public class In_Night_Manager : MonoBehaviour
         // --Para ello usamos un temporizador que se reinicia cada X segundos--
         // --Cuando el temporizador se reinicie le restamos a la bateria la cantidad que se este consumiendo--
         batteryTimer += Time.deltaTime;
-        if (batteryTimer >= 11)
+        if (batteryTimer >= 5)
         {
             batteryTimer = 0;
             battery -= (usage + 1); //Hay que sumarle uno al uso ya que el primer valor de uso siempre es 0.
