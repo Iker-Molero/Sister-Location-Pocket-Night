@@ -3,25 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Funtime_Foxy_Behavior : MonoBehaviour
 {
-    //Variable para extraer la variable de dificultad elegida.
     Difficulties preset;
-    //Variable para manejar la dificultad del enemigo.
     int diff;
-    //Para detectar las puertas.
     public In_Night_Manager main;
-    //Para activar el jumpscare.
     public Jumpscare activator;
-    //Progreso de Foxy.
     public float foxyRage = 0;
     bool alreadyOut;
-    //Ruido al parar el ataque.
     public AudioSource doorBang;
-    //Spriterender de Foxy.
     public SpriteRenderer foxyRenderer;
     public List<Sprite> spriteList = new List<Sprite>();
     void Start()
     {
-        //Extraemos la variable de dificultad y se la asignamos al script.
         preset = GameObject.FindGameObjectWithTag("Difficulties").GetComponent<Difficulties>();
         diff = preset.selectedDifficulties[3];
         alreadyOut = false;

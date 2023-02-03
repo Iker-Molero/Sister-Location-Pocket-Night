@@ -4,17 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Jumpscare : MonoBehaviour
 {
-    //Lista de jumpscares en este orden:
-    // -Ballora
-    // -Bon-Bon
-    // -Yenndo
-    // -Funtime-Foxy
-    // -Bonnet
-    // -Bidybab
     public List<Sprite> jumpscareList = new List<Sprite>();
-    //Manager del juego para desactivar los controles al hacer un jumpscare.
     public In_Night_Manager main;
-    //Variable para cambiar el sprite del jumpscare.
     public SpriteRenderer jumpscareRender;
     public AudioListener mainListener;
     public void ActivateJumpscare(int index)

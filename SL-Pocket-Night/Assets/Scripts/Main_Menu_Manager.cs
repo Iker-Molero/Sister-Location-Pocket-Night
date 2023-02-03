@@ -4,39 +4,31 @@ using UnityEngine.SceneManagement;
 
 public class Main_Menu_Manager : MonoBehaviour
 {
-    //Variable para el numero de frames por segundo.
-    int frames = 20; //Para crear el efecto retro.
-    //Variable para detectar el boton seleccionado.
+    int frames = 20;
     int selection;
-    //Variables de los renderers.
     SpriteRenderer startRenderer;
     SpriteRenderer howRenderer;
     SpriteRenderer exitRenderer;
-    //Listas con los sprites de cada boton.
     public List<Sprite> startSprites = new List<Sprite>();
     public List<Sprite> howSprites = new List<Sprite>();
     public List<Sprite> exitSprites = new List<Sprite>();
+    public AudioSource select;
+    public AudioSource pick;
     void Start()
     {
-        //Limitamos los fps del juego.
         Application.targetFrameRate = frames;
-        //Asignamos la variable de seleccion a 1. (El boton start)
         selection = 1;
-        //Asignamos las variables de los renderers.
         startRenderer = GameObject.FindGameObjectWithTag("Main_Start").GetComponent<SpriteRenderer>();
         howRenderer = GameObject.FindGameObjectWithTag("Main_How").GetComponent<SpriteRenderer>();
         exitRenderer = GameObject.FindGameObjectWithTag("Main_Exit").GetComponent<SpriteRenderer>();
     }
     void Update()
     {
-        //Limitamos la seleccion a los 3 botones.
         selection = Mathf.Clamp(selection, 1, 3);
-        //Cambiamos la seleccion en base a los inputs.
         if (Input.GetKeyDown(KeyCode.DownArrow))
-        { selection++; }
+        { selection++; select.Play(); }
         if (Input.GetKeyDown(KeyCode.UpArrow))
-        { selection--; }
-        //Cambiamos el sprite de los botones del menu en base al numero seleccionado.
+        { selection--; select.Play(); }
         switch (selection)
         {
             case 1:
@@ -55,9 +47,9 @@ public class Main_Menu_Manager : MonoBehaviour
                 exitRenderer.sprite = exitSprites[1];
                 break;
         }
-        //Cambiamos la escena a la seleccionada.
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            pick.Play();
             switch (selection)
             {
                 case 1:

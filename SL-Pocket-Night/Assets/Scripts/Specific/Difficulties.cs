@@ -3,27 +3,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class Difficulties : MonoBehaviour
 {
-    //Referenciamos el manager de la escena.
     public Night_Selector_Manager main;
-    //Variable con el numero de cada preset
     public int preset;
-    //Un Array con variables de cada enemigo;
     public List<int> selectedDifficulties = new List<int>();
     void Start()
     {
-        //Evitamos que el objeto se destruya en la siguiente escena, para poder pasar las dificultades de cada personaje dentro de la noche.
         DontDestroyOnLoad(gameObject);
     }
     void Update()
     {
-        //Si se completa la noche, eliminamos el objeto para que no se acumulen.
-        //Si se vuelve al menu principal, tambien eliminamos el objeto para que no se acumulen.
         if (SceneManager.GetActiveScene().name == "Post_Night" || SceneManager.GetActiveScene().name == "Main_Menu")
         { Destroy(gameObject); }
-        //Si estamos en la escena de seleccion de nivel.
         if (SceneManager.GetActiveScene().name == "Night_Selector")
         {
-            //Dependiendo del preset seleccionado cambiamos las dificultades de cada personaje.
             switch (main.selection)
             {
                 case 0: //Angry Ballet
