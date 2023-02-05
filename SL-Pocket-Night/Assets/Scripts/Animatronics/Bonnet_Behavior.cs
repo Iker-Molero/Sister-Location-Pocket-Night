@@ -29,7 +29,7 @@ public class Bonnet_Behavior : MonoBehaviour
             if (rand <= diff + 10 && canActivate)
             { StartCoroutine(Appear()); }
         }
-        if (!main.camsUp && Input.GetKeyDown(KeyCode.Z)) { bonnet = false; canActivate = false; bonnetAudio.Play(); }
+        if (!main.camsUp && Input.GetKeyDown(KeyCode.Z) && bonnet) { bonnet = false; canActivate = false; bonnetAudio.Play(); }
         bonnetRenderer.enabled = bonnet;
     }
     IEnumerator Appear()

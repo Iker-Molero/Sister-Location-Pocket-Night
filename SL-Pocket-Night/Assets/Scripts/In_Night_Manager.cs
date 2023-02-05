@@ -28,6 +28,8 @@ public class In_Night_Manager : MonoBehaviour
     Animator camsAnim;
     bool havePower;
     Animator fanAnim;
+    public bool electroActive;
+    public bool minireenasActive;
     void Start()
     {
         Application.targetFrameRate = frames;
@@ -54,6 +56,7 @@ public class In_Night_Manager : MonoBehaviour
         camsAnim.SetBool("Open", camsUp);
         havePower = true;
         fanAnim = GameObject.FindGameObjectWithTag("Fan").GetComponent<Animator>();
+        electroActive = false;
     }
     void Update()
     {
@@ -120,19 +123,21 @@ public class In_Night_Manager : MonoBehaviour
                 camsAnim.SetBool("Open", camsUp);
             }
         }
+        int electroUsage = electroActive ? 3 : 0;
         batteryTimer += Time.deltaTime;
         if (batteryTimer >= 9)
         {
             batteryTimer = 0;
-            battery -= (usage + 1);
+            battery -= (usage + 1 + electroUsage);
         }
         if (battery == 0)
         { NoPower(); }
         oxigenTimer += Time.deltaTime;
-        if (oxigenTimer >= 1)
+        if (oxigenTimer >= 1 && havePower)
         {
             oxigenTimer = 0;
-            oxigen++;
+            if (!minireenasActive) { oxigen++; }
+            else { oxigen -= 5; }
         }
     }
 

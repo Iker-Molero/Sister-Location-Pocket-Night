@@ -22,7 +22,7 @@ public class Funtime_Foxy_Behavior : MonoBehaviour
     {
         if (!main.camsUp)
         { foxyRage += (diff * Time.deltaTime) / 10; }
-        if (foxyRage < 50) { foxyRenderer.sprite = spriteList[1]; }
+        if (foxyRage < 50 && foxyRage > 0) { foxyRenderer.sprite = spriteList[1]; }
         if (foxyRage > 50 && foxyRage < 100) { foxyRenderer.sprite = spriteList[2]; }
         if (foxyRage >= 100 && !alreadyOut)
         {
