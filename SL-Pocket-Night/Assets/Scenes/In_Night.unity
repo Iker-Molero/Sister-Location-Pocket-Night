@@ -1298,6 +1298,7 @@ GameObject:
   m_Component:
   - component: {fileID: 485251687}
   - component: {fileID: 485251688}
+  - component: {fileID: 485251689}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1366,6 +1367,21 @@ MonoBehaviour:
   camsUp: 0
   electroActive: 0
   minireenasActive: 0
+  saving: {fileID: 485251689}
+--- !u!114 &485251689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485251686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49ba142acaf75543b962ae33f026ced, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stars: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  main: {fileID: 0}
 --- !u!1 &486437170
 GameObject:
   m_ObjectHideFlags: 0

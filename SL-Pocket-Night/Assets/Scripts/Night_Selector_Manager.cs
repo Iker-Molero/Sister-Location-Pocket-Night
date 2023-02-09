@@ -9,6 +9,10 @@ public class Night_Selector_Manager : MonoBehaviour
     public List<Sprite> presets = new List<Sprite>();
     public AudioSource select;
     public AudioSource pick;
+    public SpriteRenderer starRenderer;
+    public Sprite starObtained;
+    public Sprite starNotObtained;
+    public Saving_System saving;
     void Start()
     {
         Application.targetFrameRate = frames;
@@ -17,6 +21,9 @@ public class Night_Selector_Manager : MonoBehaviour
     }
     void Update()
     {
+        if (PlayerPrefs.GetInt(selection.ToString()) == 1)
+        { starRenderer.sprite = starObtained; }
+        else { starRenderer.sprite = starNotObtained; }
         selection = Mathf.Clamp(selection, 0, 9);
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {

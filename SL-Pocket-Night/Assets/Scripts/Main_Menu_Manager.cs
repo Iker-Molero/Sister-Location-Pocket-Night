@@ -14,6 +14,8 @@ public class Main_Menu_Manager : MonoBehaviour
     public List<Sprite> exitSprites = new List<Sprite>();
     public AudioSource select;
     public AudioSource pick;
+    public Saving_System saving;
+    public List<GameObject> starsInMenu = new List<GameObject>(); 
     void Start()
     {
         Application.targetFrameRate = frames;
@@ -21,6 +23,14 @@ public class Main_Menu_Manager : MonoBehaviour
         startRenderer = GameObject.FindGameObjectWithTag("Main_Start").GetComponent<SpriteRenderer>();
         howRenderer = GameObject.FindGameObjectWithTag("Main_How").GetComponent<SpriteRenderer>();
         exitRenderer = GameObject.FindGameObjectWithTag("Main_Exit").GetComponent<SpriteRenderer>();
+        saving.Read();
+        for (int i = 0; i < saving.stars.Length; i++)
+        {
+            if (saving.stars[i] == 1)
+            {
+                starsInMenu[i].SetActive(true);
+            }
+        }
     }
     void Update()
     {

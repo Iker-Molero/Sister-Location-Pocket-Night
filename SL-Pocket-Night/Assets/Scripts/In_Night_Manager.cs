@@ -30,6 +30,7 @@ public class In_Night_Manager : MonoBehaviour
     Animator fanAnim;
     public bool electroActive;
     public bool minireenasActive;
+    public Saving_System saving;
     void Start()
     {
         Application.targetFrameRate = frames;
@@ -99,7 +100,10 @@ public class In_Night_Manager : MonoBehaviour
             actualHour++;
         }
         if (actualHour == 6)
-        { SceneManager.LoadScene("Post_Night"); }
+        {
+            saving.Save();
+            SceneManager.LoadScene("Post_Night");
+        }
         if (havePower)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow))
